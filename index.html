@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Influencer Partnership — Emerald</title>
+  <title>Influencer Partnership | Emerald</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://api.fontshare.com">
@@ -30,7 +30,7 @@
       --shadow-lg: 0 2px 5px rgba(146,152,153,0.08), 0 9px 9px rgba(146,152,153,0.07),
                    0 20px 12px rgba(146,152,153,0.04), 0 36px 14px rgba(146,152,153,0.015);
       --shadow-sm: 0 1px 1px rgba(146,152,153,0.07), 0 2px 1px rgba(146,152,153,0.04);
-      /* Shadow/Primary — emerald glow */
+      /* Shadow/Primary: emerald glow */
       --shadow-emerald: 0 2px 5px rgba(13,180,172,0.14), 0 9px 9px rgba(13,180,172,0.10),
                         0 20px 12px rgba(13,180,172,0.05);
     }
@@ -230,7 +230,7 @@
       user-select: none;
     }
 
-    /* Submit — Platform primary button */
+    /* Submit: Platform primary button */
     button[type="submit"] {
       width: 100%;
       padding: 16px;
@@ -366,11 +366,11 @@
     <div id="form-section">
       <p class="eyebrow">Influencer Partnership</p>
       <h1>Join the <span class="accent">Emerald</span> Circle</h1>
-      <p class="subtitle">Complete the form below to confirm your partnership. In exchange for your agreed content, you'll receive a complimentary Emerald membership — provided in addition to any other fees separately agreed with the Emerald team.</p>
+      <p class="subtitle">Complete the form below to confirm your partnership. In exchange for your agreed content, you'll receive a complimentary Emerald membership, provided in addition to any other fees separately agreed with the Emerald team.</p>
 
       <!-- Error message -->
       <div data-fs-error style="display:none;" id="error-msg">
-        Something went wrong — please try again or email shad@withemerald.com directly.
+        Something went wrong. Please try again or email shad@withemerald.com directly.
       </div>
 
       <!-- Formspree reveals this hidden flag on a successful submit; the observer
@@ -408,7 +408,7 @@
         <div class="contract-wrap">
           <h2>Partnership Agreement</h2>
           <p class="contract-text">
-            By ticking the box below, I confirm that I agree to create and publish the content (Reel and/or Post) as discussed and agreed with Emerald Labs Ltd. In exchange, I will receive a complimentary Emerald membership, provided in addition to any other fees or compensation separately agreed with Emerald Labs Ltd through our direct communications. I understand that this content must be published within the timeframe agreed, and that Emerald Labs Ltd reserves the right to withdraw the membership if content obligations are not met.<br><br>
+            By ticking the box below, I confirm that I agree to create and publish the content (Reel and/or Post) as discussed and agreed with Emerald Labs Ltd. In exchange, I will receive a complimentary Emerald membership, provided in addition to any other fees or compensation separately agreed with Emerald Labs Ltd through our direct communications. I understand that this content must be published within the timeframe agreed, and that Emerald Labs Ltd reserves the right to withdraw the membership and withhold payment if content obligations are not met.<br><br>
             I also grant Emerald Labs Ltd the right to use my published content for sponsored advertising purposes through Meta (Facebook and Instagram), unless an alternative arrangement has been expressly agreed in writing with Emerald Labs Ltd prior to publication.
           </p>
           <label class="agree-row">
@@ -434,7 +434,7 @@
     <div class="tick-wrap">
       <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
     </div>
-    <p>Thank you — your details have been sent to the Emerald team. We'll be in touch shortly with your membership details.</p>
+    <p>Thank you. Your details have been sent to the Emerald team. We'll be in touch shortly with your membership details.</p>
   </div>
 </div>
 
@@ -442,7 +442,7 @@
 <script>
   // Update subject line dynamically with influencer name
   document.getElementById("name").addEventListener("input", function() {
-    document.getElementById("hidden-subject").value = "New Influencer Application — " + this.value;
+    document.getElementById("hidden-subject").value = "New Influencer Application: " + this.value;
   });
 
   // Prefix @ to instagram handle on blur
