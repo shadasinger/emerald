@@ -5,37 +5,89 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Influencer Partnership — Emerald</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://api.fontshare.com">
+  <!-- Platform design system fonts: Satoshi (headlines) + Inter (body/UI) -->
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@500,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --emerald: #1a4a3a;
-      --emerald-mid: #2d6b54;
-      --emerald-light: #4a9478;
-      --cream: #f7f3ec;
-      --warm-white: #faf8f4;
-      --text: #1c1c1c;
-      --muted: #6b6b6b;
-      --border: #d8d0c4;
+      /* Emerald Platform tokens */
+      --emerald: #0DB4AC;
+      --emerald-dark: #0AA098;
+      --ink: #1C1C1C;
+      --muted: #666D6E;
+      --muted-2: #4F5354;
+      --grey-5: #E5EAED;   /* borders */
+      --grey-6: #EFF2F4;   /* secondary surfaces */
+      --grey-7: #F7F9F9;   /* subtle fills */
+      --white: #FFFFFF;
+      --page: #F4F7F8;
+      --radius-card: 24px;
+      --radius-field: 12px;
+      --radius-btn: 14px;
+      /* Shadow/Solid/Large */
+      --shadow-lg: 0 2px 5px rgba(146,152,153,0.08), 0 9px 9px rgba(146,152,153,0.07),
+                   0 20px 12px rgba(146,152,153,0.04), 0 36px 14px rgba(146,152,153,0.015);
+      --shadow-sm: 0 1px 1px rgba(146,152,153,0.07), 0 2px 1px rgba(146,152,153,0.04);
+      /* Shadow/Primary — emerald glow */
+      --shadow-emerald: 0 2px 5px rgba(13,180,172,0.14), 0 9px 9px rgba(13,180,172,0.10),
+                        0 20px 12px rgba(13,180,172,0.05);
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--warm-white);
-      color: var(--text);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--page);
+      color: var(--ink);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      position: relative;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
     }
+
+    /* Signature soft gradient wash rising from the bottom (Platform background) */
+    body::before {
+      content: "";
+      position: fixed;
+      left: 50%;
+      bottom: -55vh;
+      transform: translateX(-50%);
+      width: 160vmax;
+      height: 130vh;
+      background: radial-gradient(closest-side at 50% 50%,
+        #7FE0D2 0%, #9CE7DE 32%, #C6ECEC 55%, #DCECF4 74%, rgba(244,247,248,0) 100%);
+      filter: blur(40px);
+      opacity: 0.85;
+      z-index: 0;
+      pointer-events: none;
+    }
+    /* faint lavender lift, mirrors the Figma gradient's cool edge */
+    body::after {
+      content: "";
+      position: fixed;
+      right: -10vw;
+      bottom: -10vh;
+      width: 70vmax;
+      height: 70vmax;
+      background: radial-gradient(closest-side, rgba(227,220,248,0.55) 0%, rgba(227,220,248,0) 70%);
+      filter: blur(30px);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    header, main, footer { position: relative; z-index: 1; }
 
     /* Top bar */
     header {
-      padding: 28px 40px;
+      padding: 26px 40px;
       display: flex;
       align-items: center;
-      border-bottom: 1px solid var(--border);
     }
+    .logo { height: 30px; width: auto; display: block; }
 
     /* Main layout */
     main {
@@ -43,53 +95,59 @@
       display: flex;
       align-items: flex-start;
       justify-content: center;
-      padding: 60px 20px 80px;
+      padding: 40px 20px 72px;
     }
 
+    /* White rounded card floating on the gradient */
     .card {
       width: 100%;
       max-width: 560px;
+      background: var(--white);
+      border: 1px solid rgba(229,234,237,0.7);
+      border-radius: var(--radius-card);
+      box-shadow: var(--shadow-lg);
+      padding: 44px 44px 40px;
     }
 
     .eyebrow {
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.18em;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: var(--emerald-light);
+      color: var(--emerald);
       margin-bottom: 14px;
     }
 
     h1 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 42px;
-      font-weight: 300;
-      line-height: 1.15;
-      color: var(--emerald);
-      margin-bottom: 12px;
+      font-family: 'Satoshi', sans-serif;
+      font-size: 36px;
+      font-weight: 700;
+      line-height: 1.12;
+      letter-spacing: -0.6px;
+      color: var(--ink);
+      margin-bottom: 14px;
     }
+    h1 .accent { color: var(--emerald); }
 
     .subtitle {
-      font-size: 14px;
-      font-weight: 300;
+      font-size: 15px;
+      font-weight: 400;
       color: var(--muted);
-      line-height: 1.7;
-      margin-bottom: 44px;
+      line-height: 1.6;
+      letter-spacing: -0.1px;
+      margin-bottom: 40px;
     }
 
     /* Form */
-    .field {
-      margin-bottom: 24px;
-    }
+    .field { margin-bottom: 22px; }
 
     label {
       display: block;
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--emerald);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink);
       margin-bottom: 8px;
+      letter-spacing: -0.1px;
     }
 
     input[type="text"],
@@ -97,26 +155,26 @@
     input[type="date"] {
       width: 100%;
       padding: 14px 16px;
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      background: #fff;
-      font-family: 'DM Sans', sans-serif;
+      border: 1px solid var(--grey-5);
+      border-radius: var(--radius-field);
+      background: var(--grey-7);
+      font-family: 'Inter', sans-serif;
       font-size: 15px;
-      font-weight: 300;
-      color: var(--text);
+      font-weight: 400;
+      color: var(--ink);
       outline: none;
-      transition: border-color 0.2s;
+      transition: border-color 0.18s, box-shadow 0.18s, background 0.18s;
       -webkit-appearance: none;
     }
-    input:focus { border-color: var(--emerald-mid); }
-    input::placeholder { color: #bbb; }
+    input:focus {
+      border-color: var(--emerald);
+      background: var(--white);
+      box-shadow: 0 0 0 3px rgba(13,180,172,0.14);
+    }
+    input::placeholder { color: #A8B0B1; }
 
     /* Instagram prefix */
-    .input-prefix {
-      position: relative;
-      display: flex;
-      align-items: center;
-    }
+    .input-prefix { position: relative; display: flex; align-items: center; }
     .input-prefix span {
       position: absolute;
       left: 16px;
@@ -124,41 +182,37 @@
       color: var(--muted);
       pointer-events: none;
     }
-    .input-prefix input { padding-left: 30px; }
+    .input-prefix input { padding-left: 32px; }
 
     /* Contract box */
     .contract-wrap {
-      background: var(--cream);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 22px 24px;
-      margin: 36px 0 28px;
+      background: var(--grey-7);
+      border: 1px solid var(--grey-5);
+      border-radius: 18px;
+      padding: 24px 26px;
+      margin: 34px 0 26px;
     }
-
     .contract-wrap h2 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 16px;
-      font-weight: 400;
-      color: var(--emerald);
-      margin-bottom: 10px;
-      letter-spacing: 0.02em;
+      font-family: 'Satoshi', sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 12px;
+      letter-spacing: -0.2px;
     }
-
     .contract-text {
-      font-size: 13px;
-      font-weight: 300;
+      font-size: 13.5px;
+      font-weight: 400;
       color: var(--muted);
-      line-height: 1.75;
+      line-height: 1.7;
       margin-bottom: 18px;
     }
-
     .agree-row {
       display: flex;
       align-items: flex-start;
       gap: 12px;
       cursor: pointer;
     }
-
     .agree-row input[type="checkbox"] {
       width: 18px;
       height: 18px;
@@ -167,45 +221,44 @@
       cursor: pointer;
       margin-top: 1px;
     }
-
     .agree-label {
-      font-size: 13px;
-      font-weight: 400;
-      color: var(--text);
-      line-height: 1.6;
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--ink);
+      line-height: 1.55;
       cursor: pointer;
       user-select: none;
     }
 
-    /* Submit */
+    /* Submit — Platform primary button */
     button[type="submit"] {
       width: 100%;
       padding: 16px;
       background: var(--emerald);
-      color: var(--cream);
+      color: var(--white);
       border: none;
-      border-radius: 4px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 13px;
-      font-weight: 500;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
+      border-radius: var(--radius-btn);
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: -0.1px;
       cursor: pointer;
-      transition: background 0.2s, opacity 0.2s;
+      transition: background 0.18s, box-shadow 0.18s, transform 0.06s;
     }
-    button[type="submit"]:hover { background: var(--emerald-mid); }
-    button[type="submit"]:disabled { opacity: 0.5; cursor: not-allowed; }
+    button[type="submit"]:hover { background: var(--emerald-dark); box-shadow: var(--shadow-emerald); }
+    button[type="submit"]:active { transform: translateY(1px); }
+    button[type="submit"]:disabled { opacity: 0.5; cursor: not-allowed; box-shadow: none; }
 
     /* Error inline */
     #error-msg {
       display: none;
-      background: #fff3f3;
-      border: 1px solid #f5c6c6;
-      color: #c0392b;
-      font-size: 13px;
+      background: #FFF4F4;
+      border: 1px solid #F5C6C6;
+      color: #C0392B;
+      font-size: 13.5px;
       padding: 12px 16px;
-      border-radius: 4px;
-      margin-top: 14px;
+      border-radius: 12px;
+      margin-bottom: 20px;
     }
 
     /* Success modal overlay */
@@ -213,22 +266,23 @@
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(26, 74, 58, 0.45);
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
+      background: rgba(13, 180, 172, 0.22);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
       z-index: 9999;
       align-items: center;
       justify-content: center;
+      padding: 20px;
     }
     #success-overlay.visible { display: flex; }
     .success-card {
-      background: var(--warm-white);
-      border-radius: 10px;
+      background: var(--white);
+      border-radius: var(--radius-card);
       padding: 52px 48px;
       max-width: 440px;
-      width: 90%;
+      width: 100%;
       text-align: center;
-      box-shadow: 0 24px 64px rgba(0,0,0,0.18);
+      box-shadow: 0 24px 64px rgba(13,180,172,0.18), var(--shadow-lg);
       animation: riseIn 0.4s ease forwards;
     }
     @keyframes riseIn {
@@ -236,14 +290,15 @@
       to   { opacity: 1; transform: translateY(0); }
     }
     .success-card .tick-wrap {
-      width: 60px; height: 60px;
+      width: 62px; height: 62px;
       border-radius: 50%;
       background: var(--emerald);
       display: flex; align-items: center; justify-content: center;
       margin: 0 auto 24px;
+      box-shadow: var(--shadow-emerald);
     }
     .success-card .tick-wrap svg {
-      width: 26px; height: 26px;
+      width: 28px; height: 28px;
       stroke: #fff; fill: none;
       stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round;
       stroke-dasharray: 30;
@@ -252,47 +307,56 @@
     }
     @keyframes drawTick { to { stroke-dashoffset: 0; } }
     .success-card h2 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 32px;
-      font-weight: 300;
-      color: var(--emerald);
+      font-family: 'Satoshi', sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -0.4px;
       margin-bottom: 12px;
     }
     .success-card p {
-      font-size: 14px;
-      font-weight: 300;
+      font-size: 15px;
+      font-weight: 400;
       color: var(--muted);
-      line-height: 1.75;
+      line-height: 1.65;
     }
     .success-card .ref-note {
       font-size: 12px;
-      color: #aaa;
+      color: #9FA6A7;
       margin-top: 22px;
       padding-top: 18px;
-      border-top: 1px solid var(--border);
+      border-top: 1px solid var(--grey-5);
     }
 
     footer {
       text-align: center;
       padding: 24px;
       font-size: 12px;
-      color: #bbb;
-      border-top: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    @media (max-width: 600px) {
+      header { padding: 22px 24px; }
+      main { padding: 24px 16px 56px; }
+      .card { padding: 32px 24px 30px; border-radius: 20px; }
+      h1 { font-size: 30px; }
+      .contract-wrap { padding: 20px; }
+      .success-card { padding: 40px 28px; }
     }
   </style>
 </head>
 <body>
 
 <header>
-  <svg width="331" height="68" viewBox="0 0 331 68" fill="none" xmlns="http://www.w3.org/2000/svg" style="height:32px;width:auto;">
-<path d="M309.611 60.9831C306.387 60.9831 303.42 60.2271 300.708 58.7149C297.996 57.2028 295.847 55.0102 294.261 52.1372C292.675 49.2641 291.882 45.8618 291.882 41.9303V40.9474C291.882 37.0158 292.675 33.6387 294.261 30.8161C295.847 27.943 297.971 25.7504 300.631 24.2383C303.343 22.6758 306.336 21.8945 309.611 21.8945C312.22 21.8945 314.42 22.2473 316.211 22.953C318.053 23.6083 319.537 24.4651 320.662 25.5236C321.788 26.5317 322.658 27.6154 323.272 28.7747H324.346V7H330.409V59.9246H324.5V53.8005H323.425C322.402 55.6655 320.816 57.3288 318.667 58.7905C316.518 60.2523 313.499 60.9831 309.611 60.9831ZM311.222 55.6907C315.111 55.6907 318.258 54.481 320.662 52.0616C323.118 49.5917 324.346 46.1642 324.346 41.7791V41.0986C324.346 36.7134 323.118 33.3111 320.662 30.8917C318.258 28.4219 315.111 27.187 311.222 27.187C307.385 27.187 304.213 28.4219 301.706 30.8917C299.25 33.3111 298.022 36.7134 298.022 41.0986V41.7791C298.022 46.1642 299.25 49.5917 301.706 52.0616C304.213 54.481 307.385 55.6907 311.222 55.6907Z" fill="black"/>
-<path d="M277.214 59.9247V7H283.277V59.9247H277.214Z" fill="black"/>
-<path d="M246.884 60.9832C244.274 60.9832 241.895 60.5295 239.746 59.6222C237.597 58.715 235.909 57.4045 234.681 55.6907C233.453 53.977 232.839 51.8852 232.839 49.4154C232.839 46.8951 233.453 44.8286 234.681 43.2156C235.909 41.5523 237.597 40.3174 239.746 39.5109C241.895 38.654 244.3 38.2256 246.96 38.2256H259.624V35.5037C259.624 32.8827 258.831 30.8161 257.245 29.304C255.71 27.7918 253.407 27.0358 250.337 27.0358C247.319 27.0358 244.965 27.7666 243.277 29.2284C241.588 30.6397 240.437 32.5551 239.823 34.9745L234.144 33.1599C234.758 31.0933 235.73 29.2284 237.06 27.565C238.39 25.8513 240.156 24.4904 242.356 23.4823C244.607 22.4238 247.293 21.8945 250.414 21.8945C255.224 21.8945 258.959 23.1294 261.619 25.5993C264.28 28.0187 265.61 31.4462 265.61 35.8818V52.5908C265.61 54.103 266.327 54.859 267.759 54.859H271.213V59.9247H265.917C264.229 59.9247 262.873 59.471 261.85 58.5638C260.826 57.6061 260.315 56.346 260.315 54.7834V54.4054H259.394C258.831 55.3631 258.063 56.3712 257.091 57.4297C256.17 58.4377 254.891 59.2694 253.254 59.9247C251.617 60.6303 249.493 60.9832 246.884 60.9832ZM247.574 55.8419C251.156 55.8419 254.047 54.8086 256.247 52.742C258.498 50.6251 259.624 47.6764 259.624 43.8961V43.0644H247.191C244.786 43.0644 242.791 43.5936 241.204 44.6521C239.669 45.6602 238.902 47.1976 238.902 49.2641C238.902 51.3307 239.695 52.9437 241.281 54.103C242.918 55.2623 245.016 55.8419 247.574 55.8419Z" fill="black"/>
-<path d="M210.018 59.9236V22.952H215.927V27.4884H217.002C217.667 25.8755 218.69 24.691 220.072 23.9349C221.453 23.1788 223.269 22.8008 225.521 22.8008H229.972V28.2445H225.137C222.425 28.2445 220.225 29.0005 218.537 30.5127C216.899 31.9744 216.081 34.2678 216.081 37.3929V59.9236H210.018Z" fill="black"/>
-<path d="M184.093 60.9832C180.306 60.9832 176.981 60.2019 174.115 58.6394C171.25 57.0264 169.024 54.7834 167.438 51.9104C165.852 49.0373 165.059 45.7106 165.059 41.9303V41.023C165.059 37.1923 165.852 33.8404 167.438 30.9673C169.024 28.0943 171.224 25.8765 174.039 24.3139C176.853 22.701 180.076 21.8945 183.709 21.8945C187.239 21.8945 190.36 22.6506 193.072 24.1627C195.784 25.6245 197.907 27.7414 199.442 30.5137C200.977 33.2859 201.745 36.537 201.745 40.2669V42.9888H171.122C171.276 46.9707 172.58 50.0958 175.036 52.364C177.492 54.5818 180.562 55.6907 184.246 55.6907C187.469 55.6907 189.951 54.9598 191.691 53.4981C193.43 52.0364 194.761 50.2974 195.681 48.2813L200.9 50.7763C200.133 52.3388 199.058 53.9013 197.677 55.4639C196.347 57.0264 194.581 58.3369 192.381 59.3954C190.232 60.4539 187.469 60.9832 184.093 60.9832ZM171.199 38.0744H195.605C195.4 34.6469 194.198 31.9754 191.998 30.0601C189.849 28.1447 187.086 27.187 183.709 27.187C180.281 27.187 177.467 28.1447 175.267 30.0601C173.066 31.9754 171.711 34.6469 171.199 38.0744Z" fill="black"/>
-<path d="M103.173 59.9256V22.9539H109.083V27.5659H110.157C110.874 26.2554 112.051 25.0457 113.688 23.9368C115.325 22.8279 117.628 22.2734 120.595 22.2734C123.512 22.2734 125.865 22.9035 127.656 24.1636C129.498 25.4237 130.828 26.9611 131.647 28.7756H132.721C133.591 26.9611 134.896 25.4237 136.635 24.1636C138.426 22.9035 140.908 22.2734 144.08 22.2734C146.587 22.2734 148.787 22.7775 150.68 23.7856C152.573 24.7937 154.057 26.2554 155.132 28.1708C156.257 30.0357 156.82 32.2787 156.82 34.8997V59.9256H150.757V35.429C150.757 32.9592 150.015 31.0186 148.531 29.6073C147.099 28.1456 145.078 27.4147 142.468 27.4147C139.705 27.4147 137.428 28.2968 135.638 30.0609C133.898 31.8251 133.028 34.3705 133.028 37.6972V59.9256H126.965V35.429C126.965 32.9592 126.223 31.0186 124.739 29.6073C123.307 28.1456 121.286 27.4147 118.676 27.4147C115.913 27.4147 113.637 28.2968 111.846 30.0609C110.106 31.8251 109.236 34.3705 109.236 37.6972V59.9256H103.173Z" fill="black"/>
-<path d="M62 59.9247V7H95.0783V12.7461H68.4468V30.4381H92.9294V36.1842H68.4468V54.1785H95.4621V59.9247H62Z" fill="black"/>
-<path d="M7.7625e-07 26.3436L23.344 33.9998L0 41.6559L1.87441 47.3567L25.1574 39.7287L10.74 59.7547L15.62 63.2576L29.9801 43.3244L29.984 67.9991L35.9947 68L35.9947 34.0338V33.9664L35.9947 0L29.984 0.00093078L29.9801 24.6756L15.62 4.74236L10.74 8.24532L25.1574 28.2713L1.87442 20.6433L7.7625e-07 26.3436Z" fill="black"/>
+  <svg class="logo" width="331" height="68" viewBox="0 0 331 68" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M309.611 60.9831C306.387 60.9831 303.42 60.2271 300.708 58.7149C297.996 57.2028 295.847 55.0102 294.261 52.1372C292.675 49.2641 291.882 45.8618 291.882 41.9303V40.9474C291.882 37.0158 292.675 33.6387 294.261 30.8161C295.847 27.943 297.971 25.7504 300.631 24.2383C303.343 22.6758 306.336 21.8945 309.611 21.8945C312.22 21.8945 314.42 22.2473 316.211 22.953C318.053 23.6083 319.537 24.4651 320.662 25.5236C321.788 26.5317 322.658 27.6154 323.272 28.7747H324.346V7H330.409V59.9246H324.5V53.8005H323.425C322.402 55.6655 320.816 57.3288 318.667 58.7905C316.518 60.2523 313.499 60.9831 309.611 60.9831ZM311.222 55.6907C315.111 55.6907 318.258 54.481 320.662 52.0616C323.118 49.5917 324.346 46.1642 324.346 41.7791V41.0986C324.346 36.7134 323.118 33.3111 320.662 30.8917C318.258 28.4219 315.111 27.187 311.222 27.187C307.385 27.187 304.213 28.4219 301.706 30.8917C299.25 33.3111 298.022 36.7134 298.022 41.0986V41.7791C298.022 46.1642 299.25 49.5917 301.706 52.0616C304.213 54.481 307.385 55.6907 311.222 55.6907Z" fill="#1C1C1C"/>
+<path d="M277.214 59.9247V7H283.277V59.9247H277.214Z" fill="#1C1C1C"/>
+<path d="M246.884 60.9832C244.274 60.9832 241.895 60.5295 239.746 59.6222C237.597 58.715 235.909 57.4045 234.681 55.6907C233.453 53.977 232.839 51.8852 232.839 49.4154C232.839 46.8951 233.453 44.8286 234.681 43.2156C235.909 41.5523 237.597 40.3174 239.746 39.5109C241.895 38.654 244.3 38.2256 246.96 38.2256H259.624V35.5037C259.624 32.8827 258.831 30.8161 257.245 29.304C255.71 27.7918 253.407 27.0358 250.337 27.0358C247.319 27.0358 244.965 27.7666 243.277 29.2284C241.588 30.6397 240.437 32.5551 239.823 34.9745L234.144 33.1599C234.758 31.0933 235.73 29.2284 237.06 27.565C238.39 25.8513 240.156 24.4904 242.356 23.4823C244.607 22.4238 247.293 21.8945 250.414 21.8945C255.224 21.8945 258.959 23.1294 261.619 25.5993C264.28 28.0187 265.61 31.4462 265.61 35.8818V52.5908C265.61 54.103 266.327 54.859 267.759 54.859H271.213V59.9247H265.917C264.229 59.9247 262.873 59.471 261.85 58.5638C260.826 57.6061 260.315 56.346 260.315 54.7834V54.4054H259.394C258.831 55.3631 258.063 56.3712 257.091 57.4297C256.17 58.4377 254.891 59.2694 253.254 59.9247C251.617 60.6303 249.493 60.9832 246.884 60.9832ZM247.574 55.8419C251.156 55.8419 254.047 54.8086 256.247 52.742C258.498 50.6251 259.624 47.6764 259.624 43.8961V43.0644H247.191C244.786 43.0644 242.791 43.5936 241.204 44.6521C239.669 45.6602 238.902 47.1976 238.902 49.2641C238.902 51.3307 239.695 52.9437 241.281 54.103C242.918 55.2623 245.016 55.8419 247.574 55.8419Z" fill="#1C1C1C"/>
+<path d="M210.018 59.9236V22.952H215.927V27.4884H217.002C217.667 25.8755 218.69 24.691 220.072 23.9349C221.453 23.1788 223.269 22.8008 225.521 22.8008H229.972V28.2445H225.137C222.425 28.2445 220.225 29.0005 218.537 30.5127C216.899 31.9744 216.081 34.2678 216.081 37.3929V59.9236H210.018Z" fill="#1C1C1C"/>
+<path d="M184.093 60.9832C180.306 60.9832 176.981 60.2019 174.115 58.6394C171.25 57.0264 169.024 54.7834 167.438 51.9104C165.852 49.0373 165.059 45.7106 165.059 41.9303V41.023C165.059 37.1923 165.852 33.8404 167.438 30.9673C169.024 28.0943 171.224 25.8765 174.039 24.3139C176.853 22.701 180.076 21.8945 183.709 21.8945C187.239 21.8945 190.36 22.6506 193.072 24.1627C195.784 25.6245 197.907 27.7414 199.442 30.5137C200.977 33.2859 201.745 36.537 201.745 40.2669V42.9888H171.122C171.276 46.9707 172.58 50.0958 175.036 52.364C177.492 54.5818 180.562 55.6907 184.246 55.6907C187.469 55.6907 189.951 54.9598 191.691 53.4981C193.43 52.0364 194.761 50.2974 195.681 48.2813L200.9 50.7763C200.133 52.3388 199.058 53.9013 197.677 55.4639C196.347 57.0264 194.581 58.3369 192.381 59.3954C190.232 60.4539 187.469 60.9832 184.093 60.9832ZM171.199 38.0744H195.605C195.4 34.6469 194.198 31.9754 191.998 30.0601C189.849 28.1447 187.086 27.187 183.709 27.187C180.281 27.187 177.467 28.1447 175.267 30.0601C173.066 31.9754 171.711 34.6469 171.199 38.0744Z" fill="#1C1C1C"/>
+<path d="M103.173 59.9256V22.9539H109.083V27.5659H110.157C110.874 26.2554 112.051 25.0457 113.688 23.9368C115.325 22.8279 117.628 22.2734 120.595 22.2734C123.512 22.2734 125.865 22.9035 127.656 24.1636C129.498 25.4237 130.828 26.9611 131.647 28.7756H132.721C133.591 26.9611 134.896 25.4237 136.635 24.1636C138.426 22.9035 140.908 22.2734 144.08 22.2734C146.587 22.2734 148.787 22.7775 150.68 23.7856C152.573 24.7937 154.057 26.2554 155.132 28.1708C156.257 30.0357 156.82 32.2787 156.82 34.8997V59.9256H150.757V35.429C150.757 32.9592 150.015 31.0186 148.531 29.6073C147.099 28.1456 145.078 27.4147 142.468 27.4147C139.705 27.4147 137.428 28.2968 135.638 30.0609C133.898 31.8251 133.028 34.3705 133.028 37.6972V59.9256H126.965V35.429C126.965 32.9592 126.223 31.0186 124.739 29.6073C123.307 28.1456 121.286 27.4147 118.676 27.4147C115.913 27.4147 113.637 28.2968 111.846 30.0609C110.106 31.8251 109.236 34.3705 109.236 37.6972V59.9256H103.173Z" fill="#1C1C1C"/>
+<path d="M62 59.9247V7H95.0783V12.7461H68.4468V30.4381H92.9294V36.1842H68.4468V54.1785H95.4621V59.9247H62Z" fill="#1C1C1C"/>
+<path d="M7.7625e-07 26.3436L23.344 33.9998L0 41.6559L1.87441 47.3567L25.1574 39.7287L10.74 59.7547L15.62 63.2576L29.9801 43.3244L29.984 67.9991L35.9947 68L35.9947 34.0338V33.9664L35.9947 0L29.984 0.00093078L29.9801 24.6756L15.62 4.74236L10.74 8.24532L25.1574 28.2713L1.87442 20.6433L7.7625e-07 26.3436Z" fill="#0DB4AC"/>
 </svg>
 </header>
 
@@ -301,13 +365,17 @@
 
     <div id="form-section">
       <p class="eyebrow">Influencer Partnership</p>
-      <h1>Join the<br><em>Emerald</em> Circle</h1>
+      <h1>Join the <span class="accent">Emerald</span> Circle</h1>
       <p class="subtitle">Complete the form below to confirm your partnership. You'll receive a full Emerald membership in exchange for your agreed content.</p>
 
       <!-- Error message -->
       <div data-fs-error style="display:none;" id="error-msg">
         Something went wrong — please try again or email shad@withemerald.com directly.
       </div>
+
+      <!-- Formspree reveals this hidden flag on a successful submit; the observer
+           below watches it and opens the styled success modal. -->
+      <div data-fs-success id="fs-success-flag" style="display:none;" aria-hidden="true"></div>
 
       <form id="onboard-form">
         <input type="hidden" name="_subject" id="hidden-subject" value="New Influencer Application" />
@@ -349,7 +417,7 @@
           </label>
         </div>
 
-        <button type="submit" id="submit-btn" data-fs-submit-btn>Submit &amp; Confirm Partnership</button>
+        <button type="submit" id="submit-btn" data-fs-submit-btn>Submit &amp; confirm partnership</button>
 
       </form>
     </div>
@@ -395,14 +463,16 @@
     const successEl = document.querySelector('[data-fs-success]');
     if (!successEl) return;
 
-    const observer = new MutationObserver(function() {
-      // Formspree sets display:block (or removes display:none) on success
-      const visible = successEl.style.display !== 'none' && successEl.style.display !== '';
-      if (visible) {
+    function maybeShow() {
+      // Formspree reveals the flag on success (display:block, or by removing display:none).
+      // Use computed style so we catch every way it can become visible.
+      if (getComputedStyle(successEl).display !== 'none') {
         document.getElementById('success-overlay').classList.add('visible');
       }
-    });
-    observer.observe(successEl, { attributes: true, attributeFilter: ['style'] });
+    }
+    const observer = new MutationObserver(maybeShow);
+    observer.observe(successEl, { attributes: true, attributeFilter: ['style', 'class'] });
+    maybeShow(); // in case Formspree revealed it before this ran
   });
 </script>
 </body>
