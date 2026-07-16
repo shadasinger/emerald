@@ -379,6 +379,7 @@
 
       <form id="onboard-form">
         <input type="hidden" name="_subject" id="hidden-subject" value="New Influencer Application" />
+        <input type="hidden" name="submitted_at" id="submitted-at" />
 
         <div class="field">
           <label for="name">Full Name</label>
@@ -429,14 +430,14 @@
       </div>
       <p class="ty-eyebrow">Application received</p>
       <h2>Thank you</h2>
-      <p>Your details have been sent to the Emerald team. We'll be in touch shortly to set up your complimentary Emerald membership.</p>
+      <p>Your details have been sent to the Emerald team.</p>
       <p class="ty-note">Any questions? Email <a href="mailto:shad@withemerald.com">shad@withemerald.com</a></p>
     </div>
 
   </div>
 </main>
 
-<footer>© 2025 Emerald Labs Ltd · All rights reserved</footer>
+<footer>© 2026 Emerald Labs Ltd · All rights reserved</footer>
 
 <!-- Submission handling: post to Formspree via fetch, then swap in the thank-you screen -->
 <script>
@@ -476,6 +477,18 @@
     const label = submitBtn.textContent;
     submitBtn.disabled = true;
     submitBtn.textContent = 'Submitting...';
+
+    // Record the full agreement wording the user accepted + a submission
+    // timestamp, so both are captured in the Formspree submission (and in any
+    // confirmation email that echoes the submission back to the applicant).
+    document.getElementById('agree').value =
+      'Agreed to the following partnership agreement: ' +
+      document.querySelector('.contract-text').innerText.trim();
+    document.getElementById('submitted-at').value =
+      new Date().toLocaleString('en-GB', {
+        day: '2-digit', month: 'long', year: 'numeric',
+        hour: '2-digit', minute: '2-digit', timeZoneName: 'short'
+      });
 
     try {
       const res = await fetch(FORMSPREE_ENDPOINT, {
