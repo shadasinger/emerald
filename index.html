@@ -261,72 +261,76 @@
       margin-bottom: 20px;
     }
 
-    /* Success modal overlay */
-    #success-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(13, 180, 172, 0.22);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      z-index: 9999;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
+    /* Form -> thank-you transition */
+    #form-section {
+      transition: opacity 0.28s ease, transform 0.28s ease;
     }
-    #success-overlay.visible { display: flex; }
-    .success-card {
-      background: var(--white);
-      border-radius: var(--radius-card);
-      padding: 52px 48px;
-      max-width: 440px;
-      width: 100%;
+    #form-section.is-leaving {
+      opacity: 0;
+      transform: translateY(-10px);
+      pointer-events: none;
+    }
+
+    /* Thank-you screen (replaces the form inside the card on success) */
+    #thankyou-section {
+      display: none;
       text-align: center;
-      box-shadow: 0 24px 64px rgba(13,180,172,0.18), var(--shadow-lg);
-      animation: riseIn 0.4s ease forwards;
+      padding: 20px 8px 8px;
+      animation: riseIn 0.5s ease forwards;
     }
     @keyframes riseIn {
       from { opacity: 0; transform: translateY(20px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-    .success-card .tick-wrap {
-      width: 62px; height: 62px;
+    .ty-tick {
+      width: 66px; height: 66px;
       border-radius: 50%;
       background: var(--emerald);
       display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 24px;
+      margin: 0 auto 26px;
       box-shadow: var(--shadow-emerald);
     }
-    .success-card .tick-wrap svg {
-      width: 28px; height: 28px;
+    .ty-tick svg {
+      width: 30px; height: 30px;
       stroke: #fff; fill: none;
       stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round;
       stroke-dasharray: 30;
       stroke-dashoffset: 30;
-      animation: drawTick 0.45s ease 0.25s forwards;
+      animation: drawTick 0.45s ease 0.35s forwards;
     }
     @keyframes drawTick { to { stroke-dashoffset: 0; } }
-    .success-card h2 {
-      font-family: 'Satoshi', sans-serif;
-      font-size: 28px;
-      font-weight: 700;
-      color: var(--ink);
-      letter-spacing: -0.4px;
+    #thankyou-section .ty-eyebrow {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--emerald);
       margin-bottom: 12px;
     }
-    .success-card p {
+    #thankyou-section h2 {
+      font-family: 'Satoshi', sans-serif;
+      font-size: 30px;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -0.5px;
+      margin-bottom: 14px;
+    }
+    #thankyou-section p {
       font-size: 15px;
       font-weight: 400;
       color: var(--muted);
       line-height: 1.65;
+      max-width: 400px;
+      margin: 0 auto;
     }
-    .success-card .ref-note {
-      font-size: 12px;
+    #thankyou-section .ty-note {
+      font-size: 13px;
       color: #9FA6A7;
-      margin-top: 22px;
-      padding-top: 18px;
+      margin-top: 28px;
+      padding-top: 20px;
       border-top: 1px solid var(--grey-5);
     }
+    #thankyou-section .ty-note a { color: var(--emerald); text-decoration: none; }
 
     footer {
       text-align: center;
@@ -341,7 +345,7 @@
       .card { padding: 32px 24px 30px; border-radius: 20px; }
       h1 { font-size: 30px; }
       .contract-wrap { padding: 20px; }
-      .success-card { padding: 40px 28px; }
+      #thankyou-section h2 { font-size: 26px; }
     }
   </style>
 </head>
@@ -372,10 +376,6 @@
       <div data-fs-error style="display:none;" id="error-msg">
         Something went wrong. Please try again or email shad@withemerald.com directly.
       </div>
-
-      <!-- Formspree reveals this hidden flag on a successful submit; the observer
-           below watches it and opens the styled success modal. -->
-      <div data-fs-success id="fs-success-flag" style="display:none;" aria-hidden="true"></div>
 
       <form id="onboard-form">
         <input type="hidden" name="_subject" id="hidden-subject" value="New Influencer Application" />
@@ -422,57 +422,77 @@
       </form>
     </div>
 
+    <!-- Thank-you screen: swapped in after a successful submit -->
+    <div id="thankyou-section">
+      <div class="ty-tick">
+        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <p class="ty-eyebrow">Application received</p>
+      <h2>Thank you</h2>
+      <p>Your details have been sent to the Emerald team. We'll be in touch shortly to set up your complimentary Emerald membership.</p>
+      <p class="ty-note">Any questions? Email <a href="mailto:shad@withemerald.com">shad@withemerald.com</a></p>
+    </div>
+
   </div>
 </main>
 
 <footer>© 2025 Emerald Labs Ltd · All rights reserved</footer>
 
-
-<!-- Success modal overlay -->
-<div id="success-overlay">
-  <div class="success-card">
-    <div class="tick-wrap">
-      <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-    </div>
-    <p>Thank you. Your details have been sent to the Emerald team. We'll be in touch shortly with your membership details.</p>
-  </div>
-</div>
-
-<!-- Formspree official SDK -->
+<!-- Submission handling: post to Formspree via fetch, then swap in the thank-you screen -->
 <script>
+  const form = document.getElementById('onboard-form');
+  const formSection = document.getElementById('form-section');
+  const thankyou = document.getElementById('thankyou-section');
+  const errorMsg = document.getElementById('error-msg');
+  const submitBtn = document.getElementById('submit-btn');
+  const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xlgovzln';
+
   // Update subject line dynamically with influencer name
-  document.getElementById("name").addEventListener("input", function() {
-    document.getElementById("hidden-subject").value = "New Influencer Application: " + this.value;
+  document.getElementById('name').addEventListener('input', function() {
+    document.getElementById('hidden-subject').value = 'New Influencer Application: ' + this.value;
   });
 
   // Prefix @ to instagram handle on blur
-  document.getElementById("instagram").addEventListener("blur", function() {
-    if (this.value && !this.value.startsWith("@")) {
-      this.value = "@" + this.value;
+  document.getElementById('instagram').addEventListener('blur', function() {
+    if (this.value && !this.value.startsWith('@')) {
+      this.value = '@' + this.value;
     }
   });
 
-  window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
-  formspree('initForm', { formElement: '#onboard-form', formId: 'xlgovzln' });
-</script>
-<script src="https://unpkg.com/@formspree/ajax@1" defer></script>
+  // Fade the form out, then reveal the thank-you screen in its place
+  function showThankYou() {
+    formSection.classList.add('is-leaving');
+    setTimeout(function() {
+      formSection.style.display = 'none';
+      thankyou.style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 300);
+  }
 
-<!-- Show success modal when Formspree confirms submission -->
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const successEl = document.querySelector('[data-fs-success]');
-    if (!successEl) return;
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    errorMsg.style.display = 'none';
 
-    function maybeShow() {
-      // Formspree reveals the flag on success (display:block, or by removing display:none).
-      // Use computed style so we catch every way it can become visible.
-      if (getComputedStyle(successEl).display !== 'none') {
-        document.getElementById('success-overlay').classList.add('visible');
+    const label = submitBtn.textContent;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting...';
+
+    try {
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      });
+      if (res.ok) {
+        showThankYou();
+      } else {
+        throw new Error('Submission failed');
       }
+    } catch (err) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = label;
+      errorMsg.style.display = 'block';
     }
-    const observer = new MutationObserver(maybeShow);
-    observer.observe(successEl, { attributes: true, attributeFilter: ['style', 'class'] });
-    maybeShow(); // in case Formspree revealed it before this ran
   });
 </script>
 </body>
